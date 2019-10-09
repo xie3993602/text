@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>date</title>
+    <style>
+        #nowTime{
+            width: 600px;
+            height: 300px;
+            line-height: 300px;
+            background-color: #bfa;
+            margin: 50px auto;
+            text-align: center;
+            font-size: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div id="nowTime">
+
+    </div>
+    <script>
+        var oNowTime=document.getElementById("nowTime");
+        function add0(n){
+            return n>10?n:"0"+n;
+        }
+        setInterval(function () {
+            var now=new Date();
+            var year=now.getFullYear();
+            var month=now.getMonth()+1;
+            month=add0(month);
+            var date=now.getDate();
+            date=add0(date);
+            var hours=now.getHours();
+            hours=add0(hours);
+            var minutes=now.getMinutes();
+            minutes=add0(minutes);
+            var seconds=now.getSeconds();
+            seconds=add0(seconds);
+            var milliseconds=now.getMilliseconds();
+            if (milliseconds<10){
+                milliseconds="00"+milliseconds;
+            } else if (milliseconds<100){
+                milliseconds="0"+milliseconds;
+            }
+            oNowTime.innerHTML=year+"年"+month+"月"+date+"日"+hours+"时"+minutes+"分"+seconds+"秒"+milliseconds+"毫秒";
+
+        },1)
+    </script>
+</body>
+</html>
