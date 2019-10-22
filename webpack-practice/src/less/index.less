@@ -1,0 +1,18 @@
+#left,#right{
+  width: 200px;
+  height: 80px;
+  background-color: #ff030f;
+  position: absolute;
+  left: 400px;
+  top: 200px;
+}
+#left{
+  left: 300px;
+  transform: rotate(45deg);
+  &:after{
+    content: "";
+  }
+}
+#right{
+  transform: rotate(-45deg);
+}

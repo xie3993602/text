@@ -1,0 +1,11 @@
+#box{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: #bbffaa;
+    opacity: 1;
+    transition:opacity 2s linear;
+}
+#box:hover{
+    opacity: 0.2;
+}

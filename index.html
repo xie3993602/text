@@ -1,51 +1,128 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>date</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
     <style>
-        #nowTime{
-            width: 600px;
-            height: 300px;
-            line-height: 300px;
-            background-color: #bfa;
-            margin: 50px auto;
+        body,html{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
             text-align: center;
-            font-size: 30px;
+        }
+        #canvas{
+            background-color: #f2f2f2;
+        }
+        .yellow,.blue,.red{
+            width: 5vw;
+            height: 2vh;
+            color: #f1f1f3;
+            border: 1px solid #000;
+            position: absolute;
+        }
+        .yellow{
+            background-color: yellow;
+            left: 40px;
+            top: 50px;
+        }
+        .blue{
+            background-color: blue;
+            left: 40px;
+            top: 100px;
+        }
+        .red{
+            background-color: red;
+            left: 40px;
+            top: 150px;
+        }
+        .btn{
+            width: 50px;
+            height: 20px;
+            font-weight:bold;
+            position: absolute;
+            left: 30px;
+            top: 200px;
+        }
+        .mid,.top{
+            width: 20px;
+            height: 20px;
+            border-radius:50%;
+            background-color:#000;
+            position: absolute;
+            left:40px;
+            top:250px;
+        }
+        .top{
+            width: 30px;
+            height: 30px;
+            left:35px;
+            top:300px;
         }
     </style>
 </head>
 <body>
-    <div id="nowTime">
-
-    </div>
+    <canvas id="canvas" width="375" height="660"></canvas>
+    <div class="yellow"></div>
+    <div class="blue"></div>
+    <div class="red"></div>
+	<div class="mid"></div>	
+	<div class="top"></div>	
+    <button class="btn">clear</button>
     <script>
-        var oNowTime=document.getElementById("nowTime");
-        function add0(n){
-            return n>10?n:"0"+n;
+        const oCanvas=document.querySelector("#canvas");
+        const oYellow=document.querySelector(".yellow");
+        const oBlue=document.querySelector(".blue");
+        const oRed=document.querySelector(".red");
+        const oBtn=document.querySelector(".btn");
+        const oMid=document.querySelector(".mid");
+        const oTop=document.querySelector(".top");
+        const ctx=oCanvas.getContext("2d");
+		let color = "black";
+		let num = 1;
+		document.body.addEventListener("touch",function (ev) {
+            ev.stopPropagation()
+        });
+        oCanvas.addEventListener("changedTouches",function (ev) {
+            ctx.beginPath();
+            const x=ev.changedTouches[0].clientX;
+            const y=ev.changedTouches[0].clientY;
+            ctx.moveTo(x,y);
+            oCanvas.addEventListener("touchmove",function (ev) {
+                const x=ev.changedTouches[0].clientX;
+                const y=ev.changedTouches[0].clientY;
+                ctx.lineTo(x,y);
+                ctx.lineWidth=num;
+                ctx.strokeStyle=color;
+                ctx.stroke();
+            });
+            oCanvas.addEventListener("touchend",function () {
+                document.onmouseup=oCanvas.onmousemove=null;
+            })
+        });
+        oYellow.addEventListener("touchstart",function () {
+            color = "yellow";
+        });
+		oBlue.onclick=function () {
+			color = "blue";
+        };
+		oRed.onclick=function () {
+			color = "red";
+        };
+		oBtn.onclick=function () {
+			color = "black";
+			num = 1;
+			ctx.clearRect(0,0,oCanvas.width,oCanvas.height);
+        };
+		oMid.onclick=function () {
+			num = 10;
+        };
+		oTop.onclick=function () {
+			num = 20;
         }
-        setInterval(function () {
-            var now=new Date();
-            var year=now.getFullYear();
-            var month=now.getMonth()+1;
-            month=add0(month);
-            var date=now.getDate();
-            date=add0(date);
-            var hours=now.getHours();
-            hours=add0(hours);
-            var minutes=now.getMinutes();
-            minutes=add0(minutes);
-            var seconds=now.getSeconds();
-            seconds=add0(seconds);
-            var milliseconds=now.getMilliseconds();
-            if (milliseconds<10){
-                milliseconds="00"+milliseconds;
-            } else if (milliseconds<100){
-                milliseconds="0"+milliseconds;
-            }
-            oNowTime.innerHTML=year+"年"+month+"月"+date+"日"+hours+"时"+minutes+"分"+seconds+"秒"+milliseconds+"毫秒";
-
-        },1)
     </script>
 </body>
 </html>
