@@ -86,7 +86,7 @@
 		document.body.addEventListener("touch",function (ev) {
             ev.stopPropagation()
         });
-        oCanvas.addEventListener("changedTouches",function (ev) {
+        oCanvas.addEventListener("touchstart",function (ev) {
             ctx.beginPath();
             const x=ev.changedTouches[0].clientX;
             const y=ev.changedTouches[0].clientY;
