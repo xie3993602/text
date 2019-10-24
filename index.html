@@ -84,9 +84,10 @@
 		let color = "black";
 		let num = 1;
 		document.body.addEventListener("touch",function (ev) {
-            ev.stopPropagation()
+            ev.preventDefault();
         });
         oCanvas.addEventListener("touchstart",function (ev) {
+            ev.preventDefault();
             ctx.beginPath();
             const x=ev.changedTouches[0].clientX;
             const y=ev.changedTouches[0].clientY;
