@@ -1,18 +1,37 @@
 #left,#right{
-  width: 200px;
-  height: 80px;
+  width: 80px;
+  height: 100px;
   background-color: #ff030f;
   position: absolute;
-  left: 400px;
+  left: 600px;
   top: 200px;
 }
 #left{
-  left: 300px;
-  transform: rotate(45deg);
+  left: 680px;
+  transform-origin: left bottom;
+  transform: rotate(-45deg);
   &:after{
     content: "";
+    width: 80px;
+    height: 80px;
+    background-color: #ff030f;
+    position: absolute;
+    left: 0;
+    top: -40px;
+    border-radius: 80px;
   }
 }
 #right{
-  transform: rotate(-45deg);
+  transform-origin: right bottom;
+  transform: rotate(45deg);
+  &:after{
+    content: "";
+    width: 80px;
+    height: 80px;
+    background-color: #ff030f;
+    position: absolute;
+    left: 0;
+    top: -40px;
+    border-radius: 80px;
+  }
 }

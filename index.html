@@ -1,129 +1,151 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
     <style>
-        body,html{
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-        }
-        #canvas{
-            background-color: #f2f2f2;
-        }
-        .yellow,.blue,.red{
-            width: 5vw;
-            height: 2vh;
-            color: #f1f1f3;
-            border: 1px solid #000;
-            position: absolute;
-        }
-        .yellow{
-            background-color: yellow;
-            left: 40px;
-            top: 50px;
-        }
-        .blue{
-            background-color: blue;
-            left: 40px;
-            top: 100px;
-        }
-        .red{
-            background-color: red;
-            left: 40px;
-            top: 150px;
-        }
-        .btn{
-            width: 50px;
-            height: 20px;
-            font-weight:bold;
-            position: absolute;
-            left: 30px;
-            top: 200px;
-        }
-        .mid,.top{
-            width: 20px;
-            height: 20px;
-            border-radius:50%;
-            background-color:#000;
-            position: absolute;
-            left:40px;
-            top:250px;
-        }
-        .top{
-            width: 30px;
-            height: 30px;
-            left:35px;
-            top:300px;
-        }
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+      }
+      #canvas {
+        background-color: #f2f2f2;
+      }
+      .blue,
+      .red {
+        width: 5vw;
+        height: 2vh;
+        color: #f1f1f3;
+        border: 1px solid #000;
+        position: absolute;
+        left: 10%;
+        transform: translateX(-50%);
+      }
+      .blue {
+        background-color: blue;
+        top: 100px;
+      }
+      .red {
+        background-color: red;
+        left: 10%;
+        top: 150px;
+      }
+      .btn,
+      .btn2 {
+        width: 70px;
+        height: 30px;
+        line-height: 30px;
+        position: absolute;
+        left: 60%;
+        transform: translateX(-50%);
+        top: 4%;
+      }
+      .btn2 {
+        left: 40%;
+      }
+      .mid,
+      .sm,
+      .top {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #000;
+        position: absolute;
+        left: 10%;
+        transform: translateX(-50%);
+        top: 240px;
+      }
+      .sm {
+        width: 10px;
+        height: 10px;
+        top: 200px;
+      }
+      .top {
+        width: 30px;
+        height: 30px;
+        top: 290px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <canvas id="canvas" width="375" height="660"></canvas>
-    <div class="yellow"></div>
     <div class="blue"></div>
     <div class="red"></div>
-	<div class="mid"></div>	
-	<div class="top"></div>
-    <button class="btn">clear</button>
+    <div class="sm"></div>
+    <div class="mid"></div>
+    <div class="top"></div>
+    <button class="btn">清除画布</button>
+    <button class="btn2">随机颜色</button>
     <script>
-        const oCanvas=document.querySelector("#canvas");
-        const oYellow=document.querySelector(".yellow");
-        const oBlue=document.querySelector(".blue");
-        const oRed=document.querySelector(".red");
-        const oBtn=document.querySelector(".btn");
-        const oMid=document.querySelector(".mid");
-        const oTop=document.querySelector(".top");
-        const ctx=oCanvas.getContext("2d");
-		let color = "black";
-		let num = 1;
-		document.body.addEventListener("touch",function (ev) {
-            ev.preventDefault();
-        });
-        oCanvas.addEventListener("touchstart",function (ev) {
-            ev.preventDefault();
-            ctx.beginPath();
-            const x=ev.changedTouches[0].clientX;
-            const y=ev.changedTouches[0].clientY;
-            ctx.moveTo(x,y);
-            oCanvas.addEventListener("touchmove",function (ev) {
-                const x=ev.changedTouches[0].clientX;
-                const y=ev.changedTouches[0].clientY;
-                ctx.lineTo(x,y);
-                ctx.lineWidth=num;
-                ctx.strokeStyle=color;
-                ctx.stroke();
-            });
-            oCanvas.addEventListener("touchend",function () {
-                document.onmouseup=oCanvas.onmousemove=null;
-            })
-        });
-        oYellow.addEventListener("touchstart",function () {
-            color = "yellow";
-        });
-		oBlue.onclick=function () {
-			color = "blue";
-        };
-		oRed.onclick=function () {
-			color = "red";
-        };
-		oBtn.onclick=function () {
-			color = "black";
-			num = 1;
-			ctx.clearRect(0,0,oCanvas.width,oCanvas.height);
-        };
-		oMid.onclick=function () {
-			num = 10;
-        };
-		oTop.onclick=function () {
-			num = 20;
-        }
+      // 封装获取DOM节点的方法
+      function $(el) {
+        return document.querySelector(el)
+      }
+      // 开启画布
+      const ctx = $('#canvas').getContext('2d')
+      let color = 'black'
+      let num = 1
+      // 阻止默认事件
+      document.body.addEventListener('touch', function(ev) {
+        ev.preventDefault()
+      })
+      $('#canvas').addEventListener('touchstart', function(ev) {
+        ev.preventDefault()
+        ctx.beginPath()
+        const x = ev.changedTouches[0].clientX
+        const y = ev.changedTouches[0].clientY
+        ctx.moveTo(x, y)
+        $('#canvas').addEventListener('touchmove', function(ev) {
+          const x = ev.changedTouches[0].clientX
+          const y = ev.changedTouches[0].clientY
+          ctx.lineTo(x, y)
+          ctx.lineWidth = num
+          ctx.strokeStyle = color
+          ctx.stroke()
+        })
+        $('#canvas').addEventListener('touchend', function() {
+          document.onmouseup = $('#canvas').onmousemove = null
+        })
+      })
+
+      function changColor(node, { type, size }) {
+        node.addEventListener('touchend', () => {
+          color = type
+          num = size
+        })
+      }
+      changColor($('.sm'), { type: 'yellow' })
+      changColor($('.blue'), { type: 'blue' })
+      changColor($('.red'), { type: 'red' })
+      changColor($('.sm'), { size: 1 })
+      changColor($('.mid'), { size: 10 })
+      changColor($('.top'), { size: 20 })
+
+      // $('.btn2').addEventListener('touchstart', () => {
+      //   this.r = Math.floor(Math.random() * 256)
+      //   this.g = Math.floor(Math.random() * 256)
+      //   this.b = Math.floor(Math.random() * 256)
+      // })
+      changColor($('.btn2'), {
+        type: `rgb(${Math.floor(Math.random() * 256)},${Math.floor(
+          Math.random() * 256
+        )},${Math.floor(Math.random() * 256)})`
+      })
+      // 清除画布
+      $('.btn').onclick = function() {
+        color = 'black'
+        num = 1
+        ctx.clearRect(0, 0, $('#canvas').width, $('#canvas').height)
+      }
     </script>
-</body>
+  </body>
 </html>

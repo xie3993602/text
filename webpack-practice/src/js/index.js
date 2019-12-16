@@ -1,5 +1,5 @@
-import '../css/index.css';
-import '../less/index.less';
+import '$css/index';
+import '$less/index';
 import add from './module';
 
 console.log(add(100, 855));
