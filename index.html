@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
     <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
-    <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script
       type="text/javascript"
       src="http://api.map.baidu.com/api?v=2.0&ak=p7YmbnHgOLMEEwFZyve3nXXYcpmu3v8m"
@@ -35,12 +35,12 @@
       //     })
       //   })
       // })
-
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           function(position) {
             var lat = position.coords.latitude
             var lon = position.coords.longitude
+            console.log($);
             const url = `https://api.map.baidu.com/reverse_geocoding/v3/?ak=p7YmbnHgOLMEEwFZyve3nXXYcpmu3v8m&output=json&coordtype=wgs84ll&location=${lat},${lng}`
             $.ajax(url, {
               type: 'GET',
