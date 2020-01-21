@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
     <script
       type="text/javascript"
       src="http://api.map.baidu.com/api?v=2.0&ak=p7YmbnHgOLMEEwFZyve3nXXYcpmu3v8m"
@@ -35,19 +36,42 @@
       //   })
       // })
       
-      navigator.geolocation.getCurrentPosition(
-        function(pos){
-          alert(pos)
-        },
-        function(err){
-          alert(err);
-        },
-        { // 附带参数
-          enableHighAccuracy: false, // 提高精度(耗费资源)
-          timeout: 3000, // 超过timeout则调用失败的回调函数
-          maximumAge: 1000 // 获取到的地理信息的有效期，超过有效期则重新获取一次位置信息
-        }
-      )
+      
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            var lat = position.coords.latitude
+            var lon = position.coords.longitude
+            alert(lat)
+            //var map = new BMap.Map("container");   // 创建Map实例
+            var point = new BMap.Point(lon, lat) // 创建点坐标
+            var gc = new BMap.Geocoder()
+            gc.getLocation(point, function(rs) {
+              var addComp = rs.addressComponents
+              console.log(addComp)
+            })
+          },
+          function(error) {
+            switch (error.code) {
+              case 1:
+                alert('位置服务被拒绝。')
+                break
+              case 2:
+                alert('暂时获取不到位置信息。')
+                break
+              case 3:
+                alert('获取位置信息超时。')
+                break
+              default:
+                alert('未知错误。')
+                break
+            }
+          },
+          { timeout: 5000, enableHighAccuracy: true }
+        )
+      } else {
+        alert('你的浏览器不支持获取地理位置信息。')
+      }
     </script>
   </body>
 </html>
