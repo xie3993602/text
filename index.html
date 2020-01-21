@@ -1,37 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <script src="http://lbsyun.baidu.com/skins/MySkin/resources/js/jquery-1.7.2.min.js"></script>
-  <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=p7YmbnHgOLMEEwFZyve3nXXYcpmu3v8m"></script>
-</head>
-<body>
-  <script>
-    let myCity = new BMap.LocalCity()
-    let city = {}
-    let url = ''
-    myCity.get((result) => {
-      let gc = new BMap.Geocoder()
-      gc.getLocation(result.center, (rs) => {
-        const { lng, lat } = rs.point
-        city = {
-          lng,
-          lat
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script
+      type="text/javascript"
+      src="http://api.map.baidu.com/api?v=2.0&ak=p7YmbnHgOLMEEwFZyve3nXXYcpmu3v8m"
+    ></script>
+  </head>
+  <body>
+    <script>
+      // let myCity = new BMap.LocalCity()
+      // let city = {}
+      // let url = ''
+      // myCity.get((result) => {
+      //   let gc = new BMap.Geocoder()
+      //   gc.getLocation(result.center, (rs) => {
+      //     const { lng, lat } = rs.point
+      //     city = {
+      //       lng,
+      //       lat
+      //     }
+      //     url = `http://api.map.baidu.com/reverse_geocoding/v3/?ak=p7YmbnHgOLMEEwFZyve3nXXYcpmu3v8m&output=json&coordtype=wgs84ll&location=${city.lat},${city.lng}`
+      //     axios.get(url)
+      //     .then(res=>{
+      //       console.log(res.result.addressComponent);
+      //     })
+      //     .catch(err=>{
+      //       console.log(err);
+      //     })
+      //   })
+      // })
+      
+      navigator.geolocation.getCurrentPosition(
+        function(pos){
+          alert(pos)
+        },
+        function(err){
+          alert(err);
+        },
+        { // 附带参数
+          enableHighAccuracy: false, // 提高精度(耗费资源)
+          timeout: 3000, // 超过timeout则调用失败的回调函数
+          maximumAge: 1000 // 获取到的地理信息的有效期，超过有效期则重新获取一次位置信息
         }
-        url = `http://api.map.baidu.com/reverse_geocoding/v3/?ak=p7YmbnHgOLMEEwFZyve3nXXYcpmu3v8m&output=json&coordtype=wgs84ll&location=${city.lat},${city.lng}`
-        $.ajax({
-          url,
-          dataType: 'jsonp',
-          success:res=>{
-            console.log(res.result.addressComponent);
-          }
-        })
-      })
-    })
-    
-  </script>
-</body>
+      )
+    </script>
+  </body>
 </html>
