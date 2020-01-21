@@ -35,46 +35,45 @@
       //     })
       //   })
       // })
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          function(position) {
-            var lat = position.coords.latitude
-            var lon = position.coords.longitude
-            console.log($);
-            const url = `https://api.map.baidu.com/reverse_geocoding/v3/?ak=p7YmbnHgOLMEEwFZyve3nXXYcpmu3v8m&output=json&coordtype=wgs84ll&location=${lat},${lng}`
-            $.ajax(url, {
-              type: 'GET',
-              dataType: 'jsonp',
-              success: res => {
-                alert(res.result.addressComponent.adcode)
-                console.log(res.result.addressComponent.adcode)
-              },
-              error: err => {
-                console.log(err)
-              }
-            })
+      function getKey(url) {
+        $.ajax(url, {
+          type: 'GET',
+          dataType: 'jsonp',
+          success: res => {
+            alert(res.result.addressComponent.adcode)
+            console.log(res.result.addressComponent.adcode)
           },
-          function(error) {
-            switch (error.code) {
-              case 1:
-                alert('位置服务被拒绝。')
-                break
-              case 2:
-                alert('暂时获取不到位置信息。')
-                break
-              case 3:
-                alert('获取位置信息超时。')
-                break
-              default:
-                alert('未知错误。')
-                break
-            }
-          },
-          { timeout: 5000, enableHighAccuracy: true }
-        )
-      } else {
-        alert('你的浏览器不支持获取地理位置信息。')
+          error: err => {
+            console.log(err)
+          }
+        })
       }
+      if (!navigator.geolocation) alert('你的浏览器不支持获取地理位置信息。')
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          var lat = position.coords.latitude
+          var lon = position.coords.longitude
+          const url = `https://api.map.baidu.com/reverse_geocoding/v3/?ak=p7YmbnHgOLMEEwFZyve3nXXYcpmu3v8m&output=json&coordtype=wgs84ll&location=${lat},${lng}`
+          getKey(url)
+        },
+        function(error) {
+          switch (error.code) {
+            case 1:
+              alert('位置服务被拒绝。')
+              break
+            case 2:
+              alert('暂时获取不到位置信息。')
+              break
+            case 3:
+              alert('获取位置信息超时。')
+              break
+            default:
+              alert('未知错误。')
+              break
+          }
+        },
+        { timeout: 5000, enableHighAccuracy: true }
+      )
     </script>
   </body>
 </html>
