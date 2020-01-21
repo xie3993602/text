@@ -35,20 +35,24 @@
       //     })
       //   })
       // })
-      
-      
+
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           function(position) {
             var lat = position.coords.latitude
             var lon = position.coords.longitude
-            alert(lat)
-            //var map = new BMap.Map("container");   // 创建Map实例
-            var point = new BMap.Point(lon, lat) // 创建点坐标
-            var gc = new BMap.Geocoder()
-            gc.getLocation(point, function(rs) {
-              var addComp = rs.addressComponents
-              console.log(addComp)
+            alert('纬度:'+lat,'经度:'+lon)
+            const url = `https://api.map.baidu.com/reverse_geocoding/v3/?ak=p7YmbnHgOLMEEwFZyve3nXXYcpmu3v8m&output=json&coordtype=wgs84ll&location=${lat},${lng}`
+            $.ajax(url, {
+              type: 'GET',
+              dataType: 'jsonp',
+              success: res => {
+                alert(res.result.addressComponent.adcode)
+                console.log(res.result.addressComponent.adcode)
+              },
+              error: err => {
+                console.log(err)
+              }
             })
           },
           function(error) {
